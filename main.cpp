@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
 	int iMenuOption = -1;
-    cAddressBook<cContactCard, vector<cContactCard> >* pcAddressBookInstance = new cAddressBook<cContactCard, vector<cContactCard> >;
+    cAddressBook<cContactCard, vector<cContactCard * > > * pcAddressBookInstance = new cAddressBook<cContactCard, vector<cContactCard * > >;
 	int iReturnValue;
 
 	while (0 != iMenuOption)
@@ -41,7 +41,7 @@ int main()
 			break;
 
 		case 5:
-			iReturnValue = pcAddressBookInstance->mcLoadDatabaseFromFile();
+            iReturnValue = mcLoadDatabaseFromFile(pcAddressBookInstance);
 			pcAddressBookInstance->mcSortEntriesInDatabase();
 			
 			break;

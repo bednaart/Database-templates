@@ -1,8 +1,6 @@
 #include "cAddressBook.h"
 #include "tinyxml2-master\tinyxml2.cpp"
 
-using namespace tinyxml2;
-
 template <typename T1, typename T2>
 cAddressBook<T1, T2>::cAddressBook()
 {
@@ -25,7 +23,7 @@ cAddressBook<T1, T2>::~cAddressBook()
 template <typename T1, typename T2>
 int cAddressBook<T1, T2>::mcAddContact()
 {
-    T2* mcNewContact = new T2();
+    T1* mcNewContact = new T1();
 
 	mcNewContact->mcGetDataFromUser();
 
@@ -37,7 +35,7 @@ int cAddressBook<T1, T2>::mcAddContact()
 template <typename T1, typename T2>
 int cAddressBook<T1, T2>::mcAddContact(string sNameFromFile, string sEmailFromFile, string sPhoneFromFile)
 {
-    T2* mcNewContact = new T2(sNameFromFile, sEmailFromFile, sPhoneFromFile);
+    T1* mcNewContact = new T1(sNameFromFile, sEmailFromFile, sPhoneFromFile);
 
     vDatabase.push_back(mcNewContact);
 
@@ -202,36 +200,37 @@ bool mcCompareTwoObjects(T* pcFirstObjToCompare, T* pcSecondObjToCompare)
 template <typename T1, typename T2>
 void cAddressBook<T1, T2>::mcSortEntriesInDatabase()
 {
-    sort((vDatabase.begin()), (vDatabase.end()), mcCompareTwoObjects<T2>);
+    sort((vDatabase.begin()), (vDatabase.end()), mcCompareTwoObjects<T1>);
 }
 
-template <typename T1, typename T2>
-int cAddressBook<T1, T2>::mcLoadDatabaseFromFile()
+
+int mcLoadDatabaseFromFile(cAddressBook<> * pcAddressBookInstance)
 {
-    XMLDocument* xmlDatabase = new XMLDocument;
+    tinyxml2::XMLDocument* xmlDatabase = new tinyxml2::XMLDocument;
 
     const char * sFileLocation = "d:/_SelfStudy/Database-templates/database.xml";
 
     if (!xmlDatabase->LoadFile(sFileLocation))
-	{
-		XMLElement* xmlContactsIterator, *xmlContactsDataIterator;
-		vector<string>* vNewContactFromFile = new vector<string>;
+    {
+        tinyxml2::XMLElement* xmlContactsIterator, *xmlContactsDataIterator;
+        vector<string>* vNewContactFromFile = new vector<string>;
 
-		xmlContactsIterator = xmlDatabase->FirstChildElement("AddressBook")->FirstChildElement("Contact");
+        xmlContactsIterator = xmlDatabase->FirstChildElement("AddressBook")->FirstChildElement("Contact");
 
-		for (xmlContactsIterator; xmlContactsIterator != NULL; xmlContactsIterator = xmlContactsIterator->NextSiblingElement())
-		{
-			for (xmlContactsDataIterator = xmlContactsIterator->FirstChildElement(); xmlContactsDataIterator != NULL; xmlContactsDataIterator = xmlContactsDataIterator->NextSiblingElement())
-			{
-				vNewContactFromFile->push_back(xmlContactsDataIterator->GetText());
-			}
-			mcAddContact(vNewContactFromFile->at(0), vNewContactFromFile->at(1), vNewContactFromFile->at(2));
-			vNewContactFromFile->clear();
-		}
+        for ( ; xmlContactsIterator != NULL; xmlContactsIterator = xmlContactsIterator->NextSiblingElement())
+        {
+            for (xmlContactsDataIterator = xmlContactsIterator->FirstChildElement(); xmlContactsDataIterator != NULL; xmlContactsDataIterator = xmlContactsDataIterator->NextSiblingElement())
+            {
+                vNewContactFromFile->push_back(xmlContactsDataIterator->GetText());
+            }
+            pcAddressBookInstance->mcAddContact(vNewContactFromFile->at(0), vNewContactFromFile->at(1), vNewContactFromFile->at(2));
+            vNewContactFromFile->clear();
+        }
 
-		xmlDatabase->Clear();
-	}
+        xmlDatabase->Clear();
+    }
 
-	
-	return 0;
+
+    return 0;
 }
+

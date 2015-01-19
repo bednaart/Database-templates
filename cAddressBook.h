@@ -21,7 +21,7 @@ public:
 	int mcShowMenu();
 	void mcDisplayAllContacts();
 	void mcSortEntriesInDatabase();
-	int mcLoadDatabaseFromFile();
+    friend int mcLoadDatabaseFromFile();
     template<typename T>
     friend bool mcCompareTwoObjects(T* pcFirstObjToCompare, T* pcSecondObjToCompare);
 
