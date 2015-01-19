@@ -8,7 +8,7 @@
 
 using namespace std;
 
-template<typename T1 = cContactCard, typename T2 = vector>
+template <typename T1 = cContactCard, typename T2 = vector<T1 *> >
 class cAddressBook
 {
 public:
@@ -22,11 +22,12 @@ public:
 	void mcDisplayAllContacts();
 	void mcSortEntriesInDatabase();
 	int mcLoadDatabaseFromFile();
-    friend bool mcCompareTwoObjects(T1* pcFirstObjToCompare, T1* pcSecondObjToCompare);
+    template<typename T>
+    friend bool mcCompareTwoObjects(T* pcFirstObjToCompare, T* pcSecondObjToCompare);
 
 private:
 
-    T2<T1 *> vDatabase;
+    T2 vDatabase;
 
 };
 

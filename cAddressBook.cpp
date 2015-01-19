@@ -3,14 +3,15 @@
 
 using namespace tinyxml2;
 
-
+template <typename T1, typename T2>
 cAddressBook<T1, T2>::cAddressBook()
 {
 }
 
+template <typename T1, typename T2>
 cAddressBook<T1, T2>::~cAddressBook()
 {
-    T1<T2 *>::iterator it;
+    typename T2::iterator it;
     for(it = vDatabase.begin(); it != vDatabase.end(); it++)
     {
         delete *it;
@@ -21,6 +22,7 @@ cAddressBook<T1, T2>::~cAddressBook()
 
 }
 
+template <typename T1, typename T2>
 int cAddressBook<T1, T2>::mcAddContact()
 {
     T2* mcNewContact = new T2();
@@ -32,6 +34,7 @@ int cAddressBook<T1, T2>::mcAddContact()
     return 0;
 }
 
+template <typename T1, typename T2>
 int cAddressBook<T1, T2>::mcAddContact(string sNameFromFile, string sEmailFromFile, string sPhoneFromFile)
 {
     T2* mcNewContact = new T2(sNameFromFile, sEmailFromFile, sPhoneFromFile);
@@ -41,6 +44,7 @@ int cAddressBook<T1, T2>::mcAddContact(string sNameFromFile, string sEmailFromFi
     return 0;
 }
 
+template <typename T1, typename T2>
 int cAddressBook<T1, T2>::mcRemoveContact()
 {
     cAddressBook<T1, T2>::mcDisplayAllContacts();
@@ -52,7 +56,7 @@ int cAddressBook<T1, T2>::mcRemoveContact()
 		cout << "Type contact name to remove: ";
 		cin >> sContactToRemove;
 
-        T1<T2 *>::iterator it = vDatabase.begin();
+        typename T2::iterator it = vDatabase.begin();
         for(it = vDatabase.begin(); it != vDatabase.end(); it++)
         {
             if ((*it)->mcGetName() == sContactToRemove)
@@ -87,7 +91,7 @@ int cAddressBook<T1, T2>::mcRemoveContact()
 }
 
 
-
+template <typename T1, typename T2>
 int cAddressBook<T1, T2>::mcShowMenu()
 {
 	int iChoosenOption;
@@ -118,7 +122,7 @@ int cAddressBook<T1, T2>::mcShowMenu()
 
 }
 
-
+template <typename T1, typename T2>
 void cAddressBook<T1, T2>::mcDisplayAllContacts()
 {
 
@@ -130,7 +134,7 @@ void cAddressBook<T1, T2>::mcDisplayAllContacts()
 	else
 	{
         int iNumberOfContact = 1;
-        T1<T2 *>::iterator it;
+        typename T2::iterator it;
 
         for(it = vDatabase.begin(); it != vDatabase.end(); it++, iNumberOfContact++)
         {
@@ -145,6 +149,7 @@ void cAddressBook<T1, T2>::mcDisplayAllContacts()
 
 }
 
+template <typename T1, typename T2>
 void cAddressBook<T1, T2>::mcSearchForContact()
 {
 	string sTextToFind;
@@ -160,7 +165,7 @@ void cAddressBook<T1, T2>::mcSearchForContact()
 	}
 	else
 	{
-        T1<T2 *>::iterator it;
+        typename T2::iterator it;
 
         for(it = vDatabase.begin(); it != vDatabase.end(); it++, iNumberOfContact++)
         {
@@ -194,13 +199,13 @@ bool mcCompareTwoObjects(T* pcFirstObjToCompare, T* pcSecondObjToCompare)
     return (*pcFirstObjToCompare < *pcSecondObjToCompare);
 }
 
-
+template <typename T1, typename T2>
 void cAddressBook<T1, T2>::mcSortEntriesInDatabase()
 {
     sort((vDatabase.begin()), (vDatabase.end()), mcCompareTwoObjects<T2>);
 }
 
-
+template <typename T1, typename T2>
 int cAddressBook<T1, T2>::mcLoadDatabaseFromFile()
 {
     XMLDocument* xmlDatabase = new XMLDocument;

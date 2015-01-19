@@ -1,5 +1,6 @@
 //#pragma once
 #include "main.h"
+#include "cAddressBook.cpp"
 #include <chrono>
 #include <thread>
 
@@ -8,7 +9,7 @@ using namespace std;
 int main()
 {
 	int iMenuOption = -1;
-    cAddressBook<cContactCard, vector>* pcAddressBookInstance = new cAddressBook<cContactCard, vector>;
+    cAddressBook<cContactCard, vector<cContactCard> >* pcAddressBookInstance = new cAddressBook<cContactCard, vector<cContactCard> >;
 	int iReturnValue;
 
 	while (0 != iMenuOption)
@@ -20,7 +21,7 @@ int main()
 		{
 		case 1:
 			iReturnValue = pcAddressBookInstance->mcAddContact();
-			pcAddressBookInstance->mcSortEntriesInDatabase();
+            pcAddressBookInstance->mcSortEntriesInDatabase();
 			
 			break;
 
